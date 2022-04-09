@@ -9,7 +9,7 @@
     "dotenv": "^16.0.0",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
-    "firebase": "^9.6.9",
+    "firebase": "^8.6.7",
     "express-session": "^1.17.2",
     "connect-redis": "^6.0.0",
     "redis": "^4.0.2",

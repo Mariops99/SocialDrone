@@ -1,8 +1,10 @@
 var inputsNeeded = {
-    signUp: ['fullName', 'birthDay', 'eMail', 'pilotID', 'password']  
+    signUp: ['fullName', 'birthDay', 'eMail', 'pilotID', 'password'] ,
+    signIn: ['eMail', 'password']
 }
 var inputTypes = {
-    signUp: {fullName: 'string', birthDay: 'string', eMail: 'string', pilotID: 'string', password: 'string'}
+    signUp: {fullName: 'string', birthDay: 'string', eMail: 'string', pilotID: 'string', password: 'string'},
+    signIn: {eMail: 'string', password: 'string'}
 }
 
 let regex = /[a-z0-9]/

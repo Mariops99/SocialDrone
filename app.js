@@ -26,6 +26,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(session(cookieSession));
 
 const checkRequest = require('./checkRequest.js')
+const databaseController = require('./databaseController.js')
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
@@ -37,13 +38,20 @@ app.get('/', (req, res) => {
 })
 
 //GET & POST (SignIn & SignUp)
-app.get('/start', (req, res) => {
+app.get('/start', (req, res) => {  
     res.render('login', {info: null, XLOCATOR: checkRequest.getToken(req).TOKEN})
 });
 
-app.post('signIn', (req, res) => {
+app.post('/signIn', (req, res) => {
     if(checkRequest.check(req)){
-
+      databaseController.signIn(req, function(error, userCredential) {
+        if(error) {
+          res.render('login', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
+        } else {
+          req.session['user'] = userCredential.user;
+          res.redirect('/newPilot');
+        }
+      });
     } else {
       res.redirect('/')
     }
@@ -55,14 +63,18 @@ app.get('/newPilot', (req, res) => {
 
 app.post('/signUp', (req, res) => {
   if(checkRequest.check(req)) {
-    res.redirect('/start')
+    databaseController.signUp(req, function(error, userCredential) {
+      if(error) {
+        res.render('newPilot', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
+      } else {
+        req.session['user'] = userCredential.user;
+        res.redirect('/start');
+      }
+    });
   } else {
     res.redirect('/')
   }
 });
-
-
-
 
 //App start message
 app.listen(port, () => {
