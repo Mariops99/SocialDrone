@@ -76,6 +76,8 @@ app.post('/signUp', (req, res) => {
   }
 });
 
+
+
 //App start message
 app.listen(port, () => {
   console.log(`SocialDrone running on http://localhost:${port}`)
