@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma-rtl.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/solid.css" integrity="sha384-LA8Ug4T/nhVkyhrSmSirsoAo9iDrBk8E7U80aSPeD+w3vO8PzOJIS6agGcbIwwX0" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/brands.css" integrity="sha384-V5Z1KgRRJyY878qCx7+zUeTDm0FgjoYrbmSortFqRPGz+Ue6XDe4uIiMqB3tB/wd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <title>SocialDrone</title>
+</head>
+<body>
+    <section class="hero has-background-light is-fullheight">
+        <div class="hero-body">
+            <div class="container">
+              <div class="columns is-5-tablet is-4-desktop is-3-widescreen">
+                  <div class="column">
+                      <form action="/signUp" method="POST" class="box">
+                          <div class="field has-text-centered">
+                              <h2 class="subtitle">SocialDrone</h2>
+                          </div>
+                          <div class="field">
+                            <label class="label">Full Name*</label>
+                            <div class="control has-icons-left">
+                                <input name="fullName" type="text" class="input" placeholder="Name Surname" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">Birthday*</label>
+                            <div class="control has-icons-left">
+                                <input name="birthDay" type="date" class="input" placeholder="UAS Operator ID / Username" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label">E-mail*</label>
+                            <div class="control has-icons-left">
+                                <input name="eMail" type="email" class="input" placeholder="Your email" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </div>
+                        </div>
+                          <div class="field">
+                              <label class="label">Pilot Identification</label>
+                              <div class="control has-icons-left">
+                                  <input name="pilotID" type="text" class="input" placeholder="UAS Operator ID / Username" required>
+                                  <span class="icon is-small is-left">
+                                      <i class="fa fa-user"></i>
+                                  </span>
+                              </div>
+                          </div>
+                          <div class="field">
+                              <label class="label">Password*</label>
+                              <div class="control has-icons-left">
+                                  <input name="password" type="password" class="input" placeholder="*********" required>
+                                  <span class="icon is-small is-left">
+                                      <i class="fa fa-lock"></i>
+                                  </span>
+                              </div>
+                          </div>
+
+                          <label class="label">* Are mandatroy fields</label>
+
+                          <% if(info != null) { %>
+                            <div class="notification is-danger has-text-centered">
+                                <h1><%= info%></h1>
+                            </div>
+                          <%}%>
+                    
+                          <div class="field has-text-centered">
+                              <button type="submit" class="button" style="background-color: #11101D; color: white;">
+                                Go to Hangar
+                              </button> <br><br>
+                              <a class="button" href="/start">Already registered?</a>
+                          </div>
+                          <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+                      </form>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </section>
+    
+</body>
+</html>

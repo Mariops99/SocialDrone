@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <title>SocialDrone</title>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma-rtl.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/solid.css" integrity="sha384-LA8Ug4T/nhVkyhrSmSirsoAo9iDrBk8E7U80aSPeD+w3vO8PzOJIS6agGcbIwwX0" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/brands.css" integrity="sha384-V5Z1KgRRJyY878qCx7+zUeTDm0FgjoYrbmSortFqRPGz+Ue6XDe4uIiMqB3tB/wd" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   </head>
+<body>
+  <div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-paper-plane icon'></i>
+        <div class="logo_name">authIRIS</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+      <% if(user['userRole'] >= 2) { %>
+      <li>
+        <a href="/home">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Projects</span>
+        </a>
+         <span class="tooltip">Projects</span>
+      </li>
+      <% } %>
+      <% if(user['userRole'] >= 1) { %>
+        <li>
+         <a href="/users">
+           <i class='bx bx-user' ></i>
+           <span class="links_name">Users</span>
+         </a>
+         <span class="tooltip">Users</span>
+       </li>
+       <%}%>
+      <li>
+        <a href="/routes">
+         <i class='bx bx-trip'></i>
+          <span class="links_name">Routes</span>
+        </a>
+        <span class="tooltip">Routes</span>
+      </li>
+      <li>
+        <a href="/hostsAvaliable">
+         <i class='bx bx-terminal'></i>
+          <span class="links_name">Hosts avaliable</span>
+        </a>
+        <span class="tooltip">Hosts avaliable</span>
+      </li>     
+     <% if(user['userRole'] >= 1) { %>  
+     <li>
+       <a href="/historic">
+        <i class='bx bx-calendar-week'></i>
+         <span class="links_name">Historic</span>
+       </a>
+       <span class="tooltip">Historic</span>
+     </li>
+     <%}%>
+     <li class="profile">
+         <div class="profile-details">
+          <i class="fas fa-user"></i>
+           <div class="name_job">
+             <div class="name"><%= user['userName'] %></div>
+             <div class="job"><% if(user['userRole'] > 1) {%> Super Admin <%} else if(user['userRole'] > 0 ) {%> Admin <%} else { %> User<% } %></div>
+           </div>
+           <a href="/logout"> <i class='bx bx-log-out' id="log_out"></i></a>
+         </div>
+        
+     </li>
+    </ul>
+  </div>
+
+  <section class="home-section">
+      <div class="text">Hi <%= user['userName'] %>!</div>
+
+
+      <section class="section" onclick="openModal()" > 
+        <div class="container">
+          <h2 class="subtitle">What would you like to do?</h2>
+          <div class="box">
+            <span class="icon-text">
+              <span class="icon has-text-success">
+                <i class="fas fa-plus"></i>
+              </span>
+              <span>Register new User</span>
+            </span>
+        </div>
+      </section>
+
+      <% if(user['userRole'] >= 2) { %>
+        <section class="section">
+          <div class="container">
+            <h2 class="subtitle">Would you like to choose any global project?</h2>
+            <div class="box">
+              <form action="/selectGlobalProject" method="post">
+                <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+                <div class="control">
+                  <div class="select">
+                    <select>    
+                        <option value="<%=user['userProject']%>"><%=user['userProject'] %></option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" class="button is-link"><i class="fa fa-arrow-right" style="padding-left: 10dp; padding-right: 10dp;"></i></button>
+              </form>
+            </div>
+          </div>
+        </section>
+      <%}%>
+
+      
+      <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Create new User</p>
+            <button class="delete" aria-label="close" onclick="closeModal()"></button>
+          </header>
+          <section class="modal-card-body">
+            <form action="/createUser" method="post">
+              
+                <div class="field">
+                    <label class="label">User Name</label>
+                    <div class="control">
+                      <input class="input" name="userName" type="text" placeholder="Text input" required>
+                    </div>
+                  </div>
+                  
+                  <div class="field">
+                    <label class="label">Password</label>
+                    <div class="control">
+                      <input class="input" name="userPassword" type="password" placeholder="Password" required>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Confirm Password</label>
+                    <div class="control">
+                      <input class="input" name="confirmPassword" type="password" placeholder="Confirm Password" required>
+                    </div>
+                  </div>
+
+                    <div class="field">
+                      <label class="label">User Role</label>
+                      <div class="control">
+                        <div class="control">
+                          <label class="radio">
+                            <input type="radio" name="foobar" checked>
+                            Common User
+                          </label> <br>
+                          <% if (user['userRole'] >= 1) { %>
+                          <label class="radio">
+                            <input type="radio" name="foobar">
+                            Admin
+                          </label> <br>
+                          <% } if (user['userRole'] >= 2) { %>
+                          <label class="radio">
+                            <input type="radio" name="foobar">
+                            Super Admin
+                          </label>
+                          <%}%>
+                        </div>
+                      </div>
+                    </div>
+
+                    <% if(user['userRole'] >= 2) { %>
+                    <div class="field">
+                      <label class="label">Associate to a Project</label>
+                      <div class="control">
+                        <div class="select">
+                          <select>
+                            <option selected disabled>Select dropdown</option>
+                            <% for (let element of projectNames)  {%>
+                              <option value="<%=element%>"><%=element %></option>
+                            <%}%>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <%} else {%>
+                      <div class="field">
+                        <label class="label">Associate to a Project</label>
+                        <div class="control">
+                          <div class="select">
+                            <select>    
+                                <option value="<%=user['userProject']%>"><%=user['userProject'] %></option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    <%}%>
+            
+          </section>
+          <footer class="modal-card-foot">
+            <button type="submit" class="button is-link">Create</button>
+            <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+          </form>
+            <button class="button" onclick="closeModal()">Cancel</button>
+          </footer>
+        </div>
+      </div>
+
+       <% if(table != null) {%>
+        <section class="section">
+          <div class="container">
+            <h2 class="subtitle">Registered Users:</h2>
+            <% if (table["data"] == []) { %>
+              <h1>We couldn't find any register</h1>
+            <%} else {%>
+            <table class="table is-fullwidth is-hoverable">
+              <thead>
+                <tr>
+                <% for(let header of table["headers"]) { %>
+                  <th class="has-text-centered"><%=header%></th>
+                <%}%>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(let i = 0; i<= table['data'].length -1; i++) { %> 
+                  <tr>
+                    <% for(let element of table['data'][i]) { %>   
+                        <% if(element === true) {%>
+                            <td class="has-text-centered"><i class="fas fa-check has-text-success"></i></td>
+                        <%} else if(element === false) { %>
+                            <td class="has-text-centered"><i class="fas fa-times has-tex-danger"></i></td>
+                        <%} else if(element === 0) { %>
+                            <td class="has-text-centered">Common User</td>
+                        <%} else if(element === 1) { %>
+                            <td class="has-text-centered">Admin</td>
+                        <%} else if(element === 2) { %>
+                            <td class="has-text-centered">Super Admin</td>
+                        <%} else {%>
+                            <td class="has-text-centered"><%=element%></td>
+                        <%}%>
+                    <%}%>
+                    <td class="has-text-centered">
+                      <button class="button is-success" onclick="openUpdateModal('<%= table.usersID[i] %>')"><i class="fas fa-pencil-alt" style="padding-left: 10dp; padding-right: 10dp;"></i></button>
+                      <button  class="button is-danger" onclick="openDeleteModal('<%= table.usersID[i] %>')"><i class="fas fa-trash-alt" style="padding-left: 10dp; padding-right: 10dp;"></i></button>
+                    </td>
+                </tr>
+                </tr>
+                <%}%>
+              </tbody>
+            </table>
+            <%}%>
+          </div>
+        </section>
+      <%}%>
+
+
+      <div class="modal" id="update">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Modify User</p>
+            <button class="delete" aria-label="close" onclick="closeUpdateModal()"></button>
+          </header>
+          <section class="modal-card-body">
+            <form action="/modifyUser" method="post">
+              <div class="field">
+                  <input class="input" id="updateUserID" name="updateUserID" type="hidden" placeholder="Text input" readonly>
+              <div class="field">
+                <label class="label">User Name</label>
+                <div class="control">
+                  <input class="input" name="updateUserName" type="text" placeholder="Text input" required>
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control">
+                  <input class="input" name="updateUserPassword" type="password" placeholder="Text input" required>
+                </div>
+              </div>
+              
+              <div class="field">
+                <label class="label">Confirm Password</label>
+                <div class="control">
+                  <input class="input" name="updateConfirmUserPassword" type="password" placeholder="Text input" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">User Role</label>
+                <div class="control">
+                  <div class="control">
+                    <label class="radio">
+                      <input type="radio" name="foobar" checked>
+                      Common User
+                    </label> <br>
+                    <% if(user['userRole'] >= 1) { %>
+                    <label class="radio">
+                      <input type="radio" name="foobar">
+                      Admin
+                    </label> <br>
+                    <% } if (user['userRole'] >= 2) { %>
+                    <label class="radio">
+                      <input type="radio" name="foobar">
+                      Super Admin
+                    </label>
+                    <%}%>
+                  </div>
+                </div>
+              </div>
+              
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button is-success">Modify</button>
+            <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+          </form>
+            <button class="button" onclick="closeUpdateModal()">Cancel</button>
+          </footer>
+        </div>
+      </div>
+
+      <div class="modal" id="delete">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Delete User</p>
+            <button class="delete" aria-label="close" onclick="closeDeleteModal()"></button>
+          </header>
+          <section class="modal-card-body">
+            <form action="/deleteUser" method="post">
+            Are you sure you want to permanently delete this user?<br><br>
+            <div class="field">
+              <div class="control">
+                <input class="input" name="deleteUserID" id="deleteUserID" type="hidden" >
+              </div>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button type="submit" class="button is-danger">Delete</button>
+            <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+          </form>
+            <button class="button" onclick="closeDeleteModal()">Cancel</button>
+          </footer>
+        </div>
+      </div>
+  </section>
+
+  <script>
+    let sidebar = document.querySelector(".sidebar");
+    let closeBtn = document.querySelector("#btn");
+
+    closeBtn.addEventListener("click", ()=>{
+        sidebar.classList.toggle("open");
+        menuBtnChange();
+    });
+
+    function menuBtnChange() {
+        if(sidebar.classList.contains("open")){
+            closeBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+        } else {
+            closeBtn.classList.replace("bx-menu-alt-right","bx-menu");
+        }
+    }
+
+    function openModal() {
+      document.querySelector(".modal").classList.add("is-active")
+    }
+
+    function closeModal() {
+      document.querySelector(".modal").classList.remove("is-active")
+    }
+
+    function openUpdateModal(data) {
+      document.getElementById("updateUserID").value = data;
+      document.getElementById("update").classList.add("is-active")
+    }
+
+    function closeUpdateModal() {
+      document.getElementById("update").classList.remove("is-active")
+      
+    }
+
+    function openDeleteModal(data) {
+      document.getElementById("deleteUserID").value = data;
+      document.getElementById("delete").classList.add("is-active")
+    }
+
+    function closeDeleteModal() {
+      document.getElementById("delete").classList.remove("is-active")
+    }
+    
+    
+  </script>
+</body>
+</html>
