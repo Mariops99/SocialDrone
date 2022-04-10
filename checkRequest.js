@@ -7,13 +7,35 @@ var XLOCATOR = {}
 
 function check(req) {
     if(checkToken(req)) {
-        if(databaseController.check(req)) {
-            if(checkInputs.check(req)) {
-                return true;
+        if(checkSession(req)) {
+            if(databaseController.check(req)) {
+                if(checkInputs.check(req)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
             }
+        } else {
+            return false;
+        }
+    } else {    
+        return false;
+    }
+
+    return checkSession(req) && checkToken(req) && databaseController.check(req) && checkInputs.check(req);
+}
+
+function checkSession (req) {
+    if(req.originalUrl != '/signIn') {
+        if(req.session.user === undefined) {
+            return false;
+        } else {
+            return req.session.user.uid ==  databaseController.userIsConnected();
         }
     } else {
-        return false;
+        return true;
     }
 }
 
@@ -32,4 +54,4 @@ function checkToken (req) {
     }
 }    
 
-module.exports = {getToken, check}
+module.exports = {getToken, check, checkSession}

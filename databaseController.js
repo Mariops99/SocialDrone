@@ -23,14 +23,18 @@ function check(req) {
     return true;
 }
 
-async function signIn(req, callback) {
+function userIsConnected () {
+    return firebase.auth().currentUser.uid;
+}
+
+async function signIn (req, callback) {
     firebase.auth().signInWithEmailAndPassword(req.body.eMail, req.body.password)
     .then((userCredential) => {
         callback(false, userCredential);
-    })
+    });
 }
 
-async function signUp(req, callback) {
+async function signUp (req, callback) {
     firebase.auth().createUserWithEmailAndPassword(req.body.eMail, req.body.password)
     .then((userCredential) => {
         firebase.database().ref('pilot/' + userCredential.user.uid).set({
@@ -45,4 +49,26 @@ async function signUp(req, callback) {
         });    
     });
 }
-module.exports = {check, signIn, signUp}
+
+async function getMyHangar (req, callback) {
+    var myHangarData = {
+        pilotData : {},
+        droneData : {},
+        flightsData : {}
+    }
+
+    await firebase.database().ref('pilot/' + req.session.user.uid + '/').once('value').then((snapshot) => {
+        myHangarData.pilotData.fullName = snapshot.val()['fullName'];
+        myHangarData.pilotData.uasOperator = snapshot.val()['uasOperator']
+        myHangarData.pilotData.eMail = snapshot.val()['eMail']
+        myHangarData.pilotData.birthDay = snapshot.val()['birthDay']
+    });
+
+    if(myHangarData != {}) {
+        callback(false, myHangarData);
+    } else {
+        callback(true, false);
+    }
+}
+
+module.exports = {check, userIsConnected, signIn, signUp, getMyHangar}

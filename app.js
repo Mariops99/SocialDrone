@@ -48,12 +48,12 @@ app.post('/signIn', (req, res) => {
         if(error) {
           res.render('login', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
         } else {
-          req.session['user'] = userCredential.user;
-          res.redirect('/newPilot');
+          req.session.user = userCredential.user;
+          return res.redirect('/myHangar');
         }
       });
     } else {
-      res.redirect('/')
+      res.render('login', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
     }
 })
 
@@ -67,8 +67,8 @@ app.post('/signUp', (req, res) => {
       if(error) {
         res.render('newPilot', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
       } else {
-        req.session['user'] = userCredential.user;
-        res.redirect('/start');
+        req.session.user = userCredential.user;
+        return res.redirect('/start');
       }
     });
   } else {
@@ -76,7 +76,16 @@ app.post('/signUp', (req, res) => {
   }
 });
 
-
+//GET & POST (MyHangar)
+app.get('/myHangar', (req, res) => {
+  if(checkRequest.checkSession(req)) {
+    databaseController.getMyHangar(req, function (err, myHangarData) {
+      
+    });
+  } else {
+    res.redirect('/');
+  }
+})
 
 //App start message
 app.listen(port, () => {
