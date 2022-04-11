@@ -31,6 +31,10 @@ async function signIn (req, callback) {
     firebase.auth().signInWithEmailAndPassword(req.body.eMail, req.body.password)
     .then((userCredential) => {
         callback(false, userCredential);
+    }).catch((error) => {
+        if(error) {
+            callback(true, false)
+        }
     });
 }
 
@@ -47,7 +51,11 @@ async function signUp (req, callback) {
                 callback(false, userCredential);
             }
         });    
-    });
+    }).catch((error) => {
+        if(error) {
+            callback(true, false)
+        }
+    });;
 }
 
 async function getMyHangar (req, callback) {
@@ -62,6 +70,10 @@ async function getMyHangar (req, callback) {
         myHangarData.pilotData.uasOperator = snapshot.val()['uasOperator']
         myHangarData.pilotData.eMail = snapshot.val()['eMail']
         myHangarData.pilotData.birthDay = snapshot.val()['birthDay']
+    }).catch((error) => {
+        if(error) {
+            callback(true, false);
+        }
     });
 
     if(myHangarData != {}) {

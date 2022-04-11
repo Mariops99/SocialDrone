@@ -15,8 +15,8 @@
 <body>
   <div class="sidebar">
     <div class="logo-details">
-      <i class='bx bx-paper-plane icon'></i>
-        <div class="logo_name">authIRIS</div>
+      <i class='bx bx-rocket icon'></i>
+        <div class="logo_name">SocialDrone</div>
         <i class='bx bx-menu' id="btn" ></i>
     </div>
     <ul class="nav-list">
@@ -29,14 +29,14 @@
       </li>
         <li>
          <a href="/social">
-           <i class='bx bx-user' ></i>
+           <i class='bx bx-network-chart' ></i>
            <span class="links_name">Social</span>
          </a>
          <span class="tooltip">Social</span>
        </li>
       <li>
         <a href="/startFlying">
-         <i class='bx bx-trip'></i>
+          <i class='bx bxs-plane-take-off' ></i>
           <span class="links_name">Start Flying</span>
         </a>
         <span class="tooltip">Start Flying</span>
@@ -47,7 +47,7 @@
          <div class="profile-details">
           <i class="fas fa-user"></i>
            <div class="name_job">
-             <div class="name"><%= user['userName'] %></div>
+             <div class="name"><%= myHangarData.pilotData.fullName %></div>
              <div class="job">Official Pilot</div>
            </div>
            <a href="/logout"> <i class='bx bx-log-out' id="log_out"></i></a>
@@ -58,7 +58,43 @@
   </div>
 
   <section class="home-section">
-      <div class="text">Hi <%= user['userName'] %>!</div>
+      <div class="text">Hi <%= myHangarData.pilotData.fullName %>!</div><br>
+      <section class="section">
+        <h2 class="subtitle">My Hangar</h2> <br>
+
+        <div class="box">
+          <h6 class="title is-6">My Pilot profile</h4>
+          <p>Pilot Name: <strong><%= myHangarData.pilotData.fullName %></strong></p>
+          <p>UAS Operator / Username: <strong><%= myHangarData.pilotData.uasOperator %></strong></p>
+          <p>E-mail: <strong><%= myHangarData.pilotData.eMail %></strong></p> <br>
+          <a href="/addLicenses">Licenses -></a>
+        </div>
+
+        <div class="box">
+          <h6 class="title is-6">My Drones</h4>
+          <% if (Object.keys(myHangarData.droneData).length === 0) { %>
+            <div class="content has-text-centered">
+              <p class="text-center">No data registered</p>
+              <button class="button is-link" onclick="addDron()">Add Drone</button>
+            </div> 
+          <%} else {%>
+
+          <%}%>%>
+        </div>
+
+        <div class="box">
+          <h6 class="title is-6">My Flights</h4>
+            <% if (Object.keys(myHangarData.flightsData).length === 0) { %>
+              <div class="content has-text-centered">
+                <p class="text-center">No data registered</p>
+                <a href="/startFlying"><button class="button is-link">Start Flying</button></a>
+              </div> 
+            <%} else {%>
+
+            <%}%>
+        </div>
+
+      </section>
 
   </section>
 

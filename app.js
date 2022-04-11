@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
   res.render('home')
 })
 
-//GET & POST (SignIn & SignUp)
+//GET & POST (SignIn, SignUp & Logout)
 app.get('/start', (req, res) => {  
     res.render('login', {info: null, XLOCATOR: checkRequest.getToken(req).TOKEN})
 });
@@ -76,11 +76,23 @@ app.post('/signUp', (req, res) => {
   }
 });
 
+app.get('/logout', (req, res) => {
+  if(checkRequest.checkSession(req)) {
+    req.session.destroy(function (err) {
+      if(!err) {
+        res.redirect('/')
+      } else {
+        res.redirect('/')
+      }
+    })
+  }
+})
+
 //GET & POST (MyHangar)
 app.get('/myHangar', (req, res) => {
   if(checkRequest.checkSession(req)) {
-    databaseController.getMyHangar(req, function (err, myHangarData) {
-      
+    databaseController.getMyHangar(req, function (err, myHangar) {
+      res.render('myHangar', {myHangarData: myHangar, XLOCATOR: checkRequest.getToken(req).TOKEN})
     });
   } else {
     res.redirect('/');
