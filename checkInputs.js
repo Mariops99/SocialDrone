@@ -1,12 +1,14 @@
 var inputsNeeded = {
     signUp: ['fullName', 'birthDay', 'eMail', 'pilotID', 'password'] ,
     signIn: ['eMail', 'password'],
-    addDrone: ['brandName', 'modelName', 'serialNumber']
+    addDrone: ['brandName', 'modelName', 'serialNumber'],
+    openFile: ['fileBase64']
 }
 var inputTypes = {
     signUp: {fullName: 'string', birthDay: 'string', eMail: 'string', pilotID: 'string', password: 'string'},
     signIn: {eMail: 'string', password: 'string'},
-    addDrone: {brandName: 'string', modelName: 'string', serialNumber: 'string'}
+    addDrone: {brandName: 'string', modelName: 'string', serialNumber: 'string'},
+    openFie: {fileBase64: 'string'}
 }
 
 let regex = /[a-z0-9]/

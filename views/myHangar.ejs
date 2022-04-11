@@ -109,7 +109,14 @@
                   <p>Brand Name: <strong><%= drone.brandName %></strong></p>
                   <p>Model: <strong><%= drone.modelName %></strong></p>
                   <p>S/N: <strong><%= drone.serialNumber %></strong></p>
-                  <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p>
+                  <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p><br>
+                  <% if (drone.hasOwnProperty('insurance')) { %>
+                    <form action="/openFile" method="post">
+                    <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+                    <input type="text" name="file" value="<%=drone.insurance.insuranceFile%>" hidden>
+                    <button type="submit" class="button">Insurace Coverage with <%= drone.insurance.companyName %></button>
+                    </form> 
+                  <%}%>
                 </div>
                 <div class="column is-one-quarter">
                   <div class="content has-text-centered">
@@ -200,7 +207,6 @@
                 </div>
 
                 <input type="file" id="insuranceFile" name="insuranceFile">
-  
 
                 </div>
 

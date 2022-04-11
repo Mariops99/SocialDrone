@@ -41,7 +41,7 @@ const databaseController = require('./databaseController.js')
 
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({limit: '50mb',extended: false }));
 
 //Landing Page
 app.get('/', (req, res) => {
@@ -117,6 +117,15 @@ app.post('/addDrone', upload.single('insuranceFile'), (req, res, next) => {
         res.redirect('/myHangar')
       }
     }); 
+  } else {
+    res.redirect('/')
+  }
+});
+
+app.post('/openFile', (req, res) => {
+  if(checkRequest.check(req)) {
+    res.write(req.body.file, 'base64');
+    res.end();
   } else {
     res.redirect('/')
   }
