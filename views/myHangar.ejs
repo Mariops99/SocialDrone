@@ -52,7 +52,6 @@
            </div>
            <a href="/logout"> <i class='bx bx-log-out' id="log_out"></i></a>
          </div>
-        
      </li>
     </ul>
   </div>
@@ -73,7 +72,7 @@
             <div class="column is-one-quarter"></div>
             <div class="column is-one-quarter">
               <div class="content has-text-centered">
-                <p>Nº Flights</p>
+                <p>Total Flights</p>
                 <p class="text-center"><strong><%= Object.keys(myHangarData.flightsData).length %></strong></p>
               </div>
             </div>
@@ -94,7 +93,15 @@
                 <div class="column is-one-quarter">
                   <div class="content has-text-centered">
                     <figure class="image is-128x128">
-                      <img src="/img/logos/dji.png" alt="">
+                      <% switch (drone.brandName.toLowerCase()) {
+                        case 'dji': %>
+                        <img src="/img/logos/dji.png" alt="">
+                        <% break
+                        default: %>
+                        <img src="/img/logos/default.svg" alt="">
+                        <% break
+                      }%>
+                      
                     </figure>
                   </div>
                 </div>
