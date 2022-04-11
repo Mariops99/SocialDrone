@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/brands.css" integrity="sha384-V5Z1KgRRJyY878qCx7+zUeTDm0FgjoYrbmSortFqRPGz+Ue6XDe4uIiMqB3tB/wd" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
   <link rel="icon" href="favicon.ico">
-  <script src="/js/app-page.js"></script>
 </head>
 <body>
   <div>
@@ -132,22 +131,28 @@
         <div class="is-flex-tablet is-justify-content-between is-align-items-center">
           <p>All rights reserved © SocialDrone</p>
           <div class="py-2 is-hidden-tablet"></div>
-          <div class="ml-auto">
-            <a class="mr-4 is-inline-block" href="#">
-              <img src="/images/app-page/socials/facebook.svg" alt=""></a>
-            <a class="mr-4 is-inline-block" href="#">
-              <img src="/images/app-page/socials/twitter.svg" alt=""></a>
-            <a class="mr-4 is-inline-block" href="#">
-              <img src="/images/app-page/socials/github.svg" alt=""></a>
-            <a class="mr-4 is-inline-block" href="#">
-              <img src="/images/app-page/socials/instagram.svg" alt=""></a>
-            <a class="is-inline-block" href="#">
-              <img src="/images/app-page/socials/linkedin.svg" alt=""></a>
-          </div>
         </div>
 
       </div>
     </footer>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menus = document.querySelectorAll('.navbar-burger');
+        const dropdowns = document.querySelectorAll('.navbar-menu');
+
+        if (menus.length && dropdowns.length) {
+            for (var i = 0; i < menus.length; i++) {
+                menus[i].addEventListener('click', function() {
+                    for (var j = 0; j < dropdowns.length; j++) {
+                        dropdowns[j].classList.toggle('is-active');
+                    }
+                });
+            }
+        }
+    });
+  </script>
+
 </body>
 </html>

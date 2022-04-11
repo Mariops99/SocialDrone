@@ -23,12 +23,10 @@ function check(req) {
     } else {    
         return false;
     }
-
-    return checkSession(req) && checkToken(req) && databaseController.check(req) && checkInputs.check(req);
 }
 
 function checkSession (req) {
-    if(req.originalUrl != '/signIn') {
+    if(req.originalUrl != '/signIn' && req.originalUrl != '/signUp') {
         if(req.session.user === undefined) {
             return false;
         } else {

@@ -64,21 +64,55 @@
 
         <div class="box">
           <h6 class="title is-6">My Pilot profile</h4>
-          <p>Pilot Name: <strong><%= myHangarData.pilotData.fullName %></strong></p>
-          <p>UAS Operator / Username: <strong><%= myHangarData.pilotData.uasOperator %></strong></p>
-          <p>E-mail: <strong><%= myHangarData.pilotData.eMail %></strong></p> <br>
-          <a href="/addLicenses">Licenses -></a>
+          <div class="columns">
+            <div class="column is-half">
+              <p>Pilot Name: <strong><%= myHangarData.pilotData.fullName %></strong></p>
+              <p>UAS Operator / Username: <strong><%= myHangarData.pilotData.uasOperator %></strong></p>
+              <p>E-mail: <strong><%= myHangarData.pilotData.eMail %></strong></p>
+            </div>
+            <div class="column is-one-quarter"></div>
+            <div class="column is-one-quarter">
+              <div class="content has-text-centered">
+                <p>Nº Flights</p>
+                <p class="text-center"><strong><%= Object.keys(myHangarData.flightsData).length %></strong></p>
+              </div>
+            </div>
+          </div>
+          <a href="#" onclick="addLicense()">See all licenses -></a>
         </div>
 
         <div class="box">
           <h6 class="title is-6">My Drones</h4>
-          <% if (Object.keys(myHangarData.droneData).length === 0) { %>
+          <% if (myHangarData.droneData.length === 0) { %>
             <div class="content has-text-centered">
               <p class="text-center">No data registered</p>
-              <button class="button is-link" onclick="addDron()">Add Drone</button>
+              <button class="button is-link" onclick="addDrone()">Add Drone</button>
             </div> 
           <%} else {%>
-
+            <% for (let drone of myHangarData.droneData) {%>
+              <div class="columns">
+                <div class="column is-one-quarter">
+                  <div class="content has-text-centered">
+                    <figure class="image is-128x128">
+                      <img src="/img/logos/dji.png" alt="">
+                    </figure>
+                  </div>
+                </div>
+                <div class="column is-half">
+                  <p>Brand Name: <strong><%= drone.brandName %></strong></p>
+                  <p>Model: <strong><%= drone.modelName %></strong></p>
+                  <p>S/N: <strong><%= drone.serialNumber %></strong></p>
+                  <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p>
+                </div>
+                <div class="column is-one-quarter">
+                  <div class="content has-text-centered">
+                    <p>Nº Flights</p>
+                    <p class="text-center"><strong><%= drone.flights %></strong></p>
+                  </div>
+                </div>
+              </div>
+            <%}%>
+            <a href="#" onclick="addDrone()">Add new Drone -></a>
           <%}%>%>
         </div>
 
@@ -93,6 +127,86 @@
 
             <%}%>
         </div>
+
+        <div class="modal" id="addLicense">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Upload Licenses</p>
+              <button class="delete" aria-label="close" onclick="closeLicense()"></button>
+            </header>
+            <section class="modal-card-body">
+              
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-link">Save</button>
+              <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+            </form>
+              <button class="button" onclick="closeLicense()">Cancel</button>
+            </footer>
+          </div>
+        </div>
+
+        <div class="modal" id="addDrone">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Register drone</p>
+              <button class="delete" aria-label="close" onclick="closeDrone()"></button>
+            </header>
+            <section class="modal-card-body">
+              <form action="/addDrone" method="post" enctype="multipart/form-data">
+                <div class="field">
+                  <label class="label">Brand Name</label>
+                  <div class="control">
+                    <input class="input" name="brandName" type="text" placeholder="Brand name" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Model</label>
+                  <div class="control">
+                    <input class="input" name="modelName" type="text" placeholder="Model name" required>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="label">Serial Number</label>
+                  <div class="control">
+                    <input class="input" name="serialNumber" type="text" placeholder="Serial Number" required>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label class="checkbox">
+                    <input type="checkbox" id="checkInsurance" onclick="insuranceState()">
+                    Do you have insurance for this drone?
+                  </label>
+                </div>
+
+                <div id="insuranceDiv" hidden>
+
+                <div class="field">
+                  <label class="label">Company</label>
+                  <div class="control">
+                    <input class="input" id="companyName" name="companyName" type="text" placeholder="Company name">
+                  </div>
+                </div>
+
+                <input type="file" id="insuranceFile" name="insuranceFile">
+  
+
+                </div>
+
+            </section>
+            <footer class="modal-card-foot">
+              <button type="submit" class="button is-link">Save</button>
+              <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+            </form>
+              <button class="button" onclick="closeDrone()">Cancel</button>
+            </footer>
+          </div>
+        </div>
+
 
       </section>
 
@@ -111,7 +225,37 @@
     searchBtn.addEventListener("click", ()=>{
         sidebar.classList.toggle("open");
         menuBtnChange();
-    });    
+    });
+
+    function addLicense() {
+      document.getElementById("addLicense").classList.add("is-active")
+    }
+
+    function closeLicense() {
+      document.getElementById("addLicense").classList.remove("is-active")
+    }
+
+    function addDrone() {
+      document.getElementById("addDrone").classList.add("is-active")
+    }
+
+    function closeDrone() {
+      document.getElementById("addDrone").classList.remove("is-active")
+    }
+
+    function insuranceState() {
+      if(document.getElementById("checkInsurance").checked) {
+        document.getElementById("insuranceDiv").hidden = false;
+        document.getElementById("companyName").required = true;
+        document.getElementById("insuranceFile").required = true;
+
+      } else {
+        document.getElementById("insuranceDiv").hidden = true;
+        document.getElementById("companyName").required = false;
+        document.getElementById("insuranceFile").required = false;
+      }
+    }
+
   </script>
 </body>
 </html>

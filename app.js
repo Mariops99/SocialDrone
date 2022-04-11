@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require("body-parser");
 require('dotenv').config()
 const app = express()
+const multer  = require('multer');
 const port = 80
 const {v4: uuidv4} = require('uuid');
 
@@ -21,6 +22,16 @@ var cookieSession = {
   resave: false,
   saveUninitialized: false
 }
+
+const fileStorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, './uploads/insuraceCoverage');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + "--" + file.originalname)
+  } 
+})
+const upload = multer({storage: multer.memoryStorage()});
 
 app.use(express.static(__dirname + '/public'));
 app.use(session(cookieSession));
@@ -46,7 +57,7 @@ app.post('/signIn', (req, res) => {
     if(checkRequest.check(req)){
       databaseController.signIn(req, function(error, userCredential) {
         if(error) {
-          res.render('login', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
+          res.render('login', {info: 'Something went wrong!\n Error code: ' + error, XLOCATOR: checkRequest.getToken(req).TOKEN})
         } else {
           req.session.user = userCredential.user;
           return res.redirect('/myHangar');
@@ -65,7 +76,7 @@ app.post('/signUp', (req, res) => {
   if(checkRequest.check(req)) {
     databaseController.signUp(req, function(error, userCredential) {
       if(error) {
-        res.render('newPilot', {info: 'Something went wrong!', XLOCATOR: checkRequest.getToken(req).TOKEN})
+        res.render('newPilot', {info: 'Something went wrong!\n Error code: ' + error, XLOCATOR: checkRequest.getToken(req).TOKEN})
       } else {
         req.session.user = userCredential.user;
         return res.redirect('/start');
@@ -98,6 +109,18 @@ app.get('/myHangar', (req, res) => {
     res.redirect('/');
   }
 })
+
+app.post('/addDrone', upload.single('insuranceFile'), (req, res, next) => {
+  if(checkRequest.check(req)) {
+    databaseController.addDrone(req, function (err, droneResoult) {
+      if(droneResoult) {
+        res.redirect('/myHangar')
+      }
+    }); 
+  } else {
+    res.redirect('/')
+  }
+});
 
 //App start message
 app.listen(port, () => {
