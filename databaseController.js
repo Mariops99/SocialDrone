@@ -78,6 +78,11 @@ async function getMyHangar (req, callback) {
                 drone.dateRegistration = snapshot.val()['drone'][droneVirtual]['dateRegistration']
                 drone.serialNumber = snapshot.val()['drone'][droneVirtual]['serialNumber']
                 drone.flights = snapshot.val()['drone'][droneVirtual]['flights']
+                if(snapshot.val()['drone'][droneVirtual]['isFPV'] === "on") {
+                    drone.isFPV = "Yes"
+                } else {
+                    drone.isFPV = "No"
+                }
                 if(snapshot.val()['drone'][droneVirtual].hasOwnProperty('insurance')) {
                     drone.insurance.companyName = snapshot.val()['drone'][droneVirtual]['insurance']['companyName']
                     drone.insurance.insuranceFile = snapshot.val()['drone'][droneVirtual]['insurance']['insuranceFile']
@@ -105,10 +110,15 @@ async function getMyHangar (req, callback) {
     }
 }
 async function addDrone (req, callback) {
+    if(req.body.isFPV === undefined) {
+        req.body.isFPV = "no";
+    }
+
     var drone = {
         brandName: req.body.brandName,
         modelName: req.body.modelName,
         serialNumber: req.body.serialNumber,
+        isFPV: req.body.isFPV,
         flights: 0
     }
 

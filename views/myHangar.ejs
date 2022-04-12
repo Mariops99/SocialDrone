@@ -109,7 +109,8 @@
                   <p>Brand Name: <strong><%= drone.brandName %></strong></p>
                   <p>Model: <strong><%= drone.modelName %></strong></p>
                   <p>S/N: <strong><%= drone.serialNumber %></strong></p>
-                  <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p><br>
+                  <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p>
+                  <p>Is FPV? <strong><%= drone.isFPV %></strong></p><br>
                   <% if (drone.hasOwnProperty('insurance')) { %>
                     <form action="/openFile" method="post">
                     <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
@@ -188,6 +189,13 @@
                   <div class="control">
                     <input class="input" name="serialNumber" type="text" placeholder="Serial Number" required>
                   </div>
+                </div>
+
+                <div class="field">
+                  <label class="checkbox">
+                    <input type="checkbox" name="isFPV">
+                    Is FPV?
+                  </label>
                 </div>
 
                 <div class="field">
