@@ -15,7 +15,7 @@ client.connect();
 var cookieSession = {
   secret: uuidv4(),
   store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl : 260}),
-  maxAge: 60000,
+  maxAge: 1000 * 60 * 60 * 24 * 7,
   cookie: {
       secure: false
   },
@@ -23,14 +23,6 @@ var cookieSession = {
   saveUninitialized: false
 }
 
-const fileStorageEngine = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, './uploads/insuraceCoverage');
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "--" + file.originalname)
-  } 
-})
 const upload = multer({storage: multer.memoryStorage()});
 
 app.use(express.static(__dirname + '/public'));
@@ -117,6 +109,16 @@ app.post('/addDrone', upload.single('insuranceFile'), (req, res, next) => {
         res.redirect('/myHangar')
       }
     }); 
+  } else {
+    res.redirect('/')
+  }
+});
+
+app.post('/uploadLicense', upload.single('licenseFile'), (req, res, next) => {
+  if(checkRequest.check(req)) {
+    databaseController.addLicense(req, function (err, licenseResoult) {
+        res.redirect('/myHangar')
+    });
   } else {
     res.redirect('/')
   }

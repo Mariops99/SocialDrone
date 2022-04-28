@@ -37,7 +37,6 @@ async function signIn (req, callback) {
         }
     });
 }
-
 async function signUp (req, callback) {
     firebase.auth().createUserWithEmailAndPassword(req.body.eMail, req.body.password).then((userCredential) => {
         firebase.database().ref('pilot/' + userCredential.user.uid + '/').set({
@@ -56,12 +55,12 @@ async function signUp (req, callback) {
         }
     });
 }
-
 async function getMyHangar (req, callback) {
     var myHangarData = {
         pilotData : {},
         droneData : [],
-        flightsData : []
+        flightsData : [],
+        licenseData: []
     }
 
     await firebase.database().ref('pilot/' + req.session.user.uid + '/').once('value').then((snapshot) => {
@@ -88,6 +87,15 @@ async function getMyHangar (req, callback) {
                     drone.insurance.insuranceFile = snapshot.val()['drone'][droneVirtual]['insurance']['insuranceFile']
                 }
                 myHangarData.droneData.push(drone);
+            }
+        }
+
+        if(snapshot.val().hasOwnProperty('license')) {
+            for(let licenseVirtual in snapshot.val()['license']) {
+                var license = {};
+                license.licenseName = snapshot.val()['license'][licenseVirtual]['licenseName']
+                license.licenseData = snapshot.val()['license'][licenseVirtual]['licenseData']
+                myHangarData.licenseData.push(license);
             }
         }
 
@@ -140,5 +148,19 @@ async function addDrone (req, callback) {
         }
     });
 }
+async function addLicense (req, callback) {
+    var license = {
+        licenseData: req.file.buffer.toString('base64'),
+        licenseName: req.body.licenseName
+    }
 
-module.exports = {check, userIsConnected, signIn, signUp, getMyHangar, addDrone}
+    firebase.database().ref('pilot/' + req.session.user.uid + '/license/' + firebase.database().ref('/pilot').push().key).set(license, (error) => {
+        if(!error) {
+            callback(false, true);
+        } else {
+            callback(error, false)
+        }
+    });
+}
+
+module.exports = {check, userIsConnected, signIn, signUp, getMyHangar, addDrone, addLicense}

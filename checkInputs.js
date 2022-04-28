@@ -2,16 +2,18 @@ var inputsNeeded = {
     signUp: ['fullName', 'birthDay', 'eMail', 'pilotID', 'password'] ,
     signIn: ['eMail', 'password'],
     addDrone: ['brandName', 'modelName', 'serialNumber', 'isFPV'],
+    uploadLicense: ['licenseName'],
     openFile: ['fileBase64']
 }
 var inputTypes = {
     signUp: {fullName: 'string', birthDay: 'string', eMail: 'string', pilotID: 'string', password: 'string'},
     signIn: {eMail: 'string', password: 'string'},
     addDrone: {brandName: 'string', modelName: 'string', serialNumber: 'string', isFPV: 'string'},
-    openFie: {fileBase64: 'string'}
+    uploadLicense: {licenseName: 'string'},
+    openFile: {fileBase64: 'string'}
 }
 
-let regex = /[a-z0-9]/
+let regex = /[a-zA-Z0-9]/
 
 function check(req) {
     var inputsParsed = JSON.parse(JSON.stringify(req.body))

@@ -1,147 +1,22 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css">
-    <title>SocialDrone - My Hangar</title>
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma-rtl.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/solid.css" integrity="sha384-LA8Ug4T/nhVkyhrSmSirsoAo9iDrBk8E7U80aSPeD+w3vO8PzOJIS6agGcbIwwX0" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/brands.css" integrity="sha384-V5Z1KgRRJyY878qCx7+zUeTDm0FgjoYrbmSortFqRPGz+Ue6XDe4uIiMqB3tB/wd" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   </head>
+    <%- include('partials/head.ejs', {title: 'My Hangar'}) %>
+  </head>
 <body>
-  <div class="sidebar">
-    <div class="logo-details">
-      <i class='bx bx-rocket icon'></i>
-        <div class="logo_name">SocialDrone</div>
-        <i class='bx bx-menu' id="btn" ></i>
-    </div>
-    <ul class="nav-list">
-      <li>
-        <a href="/myHangar">
-          <i class='bx bx-grid-alt'></i>
-          <span class="links_name">Hangar</span>
-        </a>
-         <span class="tooltip">Hangar</span>
-      </li>
-        <li>
-         <a href="/social">
-           <i class='bx bx-network-chart' ></i>
-           <span class="links_name">Social</span>
-         </a>
-         <span class="tooltip">Social</span>
-       </li>
-      <li>
-        <a href="/startFlying">
-          <i class='bx bxs-plane-take-off' ></i>
-          <span class="links_name">Start Flying</span>
-        </a>
-        <span class="tooltip">Start Flying</span>
-      </li>
-      
-  
-     <li class="profile">
-         <div class="profile-details">
-          <i class="fas fa-user"></i>
-           <div class="name_job">
-             <div class="name"><%= myHangarData.pilotData.fullName %></div>
-             <div class="job">Official Pilot</div>
-           </div>
-           <a href="/logout"> <i class='bx bx-log-out' id="log_out"></i></a>
-         </div>
-     </li>
-    </ul>
-  </div>
+
+  <%- include('partials/sidebar.ejs', {myHangarData: myHangarData}) %>
 
   <section class="home-section">
       <div class="text">Hi <%= myHangarData.pilotData.fullName %>!</div><br>
       <section class="section">
         <h2 class="subtitle">My Hangar</h2> <br>
 
-        <div class="box">
-          <h6 class="title is-6">My Pilot profile</h4>
-          <div class="columns">
-            <div class="column is-half">
-              <p>Pilot Name: <strong><%= myHangarData.pilotData.fullName %></strong></p>
-              <p>UAS Operator / Username: <strong><%= myHangarData.pilotData.uasOperator %></strong></p>
-              <p>E-mail: <strong><%= myHangarData.pilotData.eMail %></strong></p>
-            </div>
-            <div class="column is-one-quarter"></div>
-            <div class="column is-one-quarter">
-              <div class="content has-text-centered">
-                <p>Total Flights</p>
-                <p class="text-center"><strong><%= Object.keys(myHangarData.flightsData).length %></strong></p>
-              </div>
-            </div>
-          </div>
-          <a href="#" onclick="addLicense()">See all licenses -></a>
-        </div>
+        <%- include('partials/pilotProfile', {myHangarData: myHangarData}) %>
 
-        <div class="box">
-          <h6 class="title is-6">My Drones</h4>
-          <% if (myHangarData.droneData.length === 0) { %>
-            <div class="content has-text-centered">
-              <p class="text-center">No data registered</p>
-              <button class="button is-link" onclick="addDrone()">Add Drone</button>
-            </div> 
-          <%} else {%>
-            <% for (let drone of myHangarData.droneData) {%>
-              <div class="columns">
-                <div class="column is-one-quarter">
-                  <div class="content has-text-centered">
-                    <figure class="image is-128x128">
-                      <% switch (drone.brandName.toLowerCase()) {
-                        case 'dji': %>
-                        <img src="/img/logos/dji.png" alt="">
-                        <% break
-                        default: %>
-                        <img src="/img/logos/default.svg" alt="">
-                        <% break
-                      }%>
-                      
-                    </figure>
-                  </div>
-                </div>
-                <div class="column is-half">
-                  <p>Brand Name: <strong><%= drone.brandName %></strong></p>
-                  <p>Model: <strong><%= drone.modelName %></strong></p>
-                  <p>S/N: <strong><%= drone.serialNumber %></strong></p>
-                  <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p>
-                  <p>Is FPV? <strong><%= drone.isFPV %></strong></p><br>
-                  <% if (drone.hasOwnProperty('insurance')) { %>
-                    <form action="/openFile" method="post">
-                    <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
-                    <input type="text" name="file" value="<%=drone.insurance.insuranceFile%>" hidden>
-                    <button type="submit" class="button">Insurace Coverage with <%= drone.insurance.companyName %></button>
-                    </form> 
-                  <%}%>
-                </div>
-                <div class="column is-one-quarter">
-                  <div class="content has-text-centered">
-                    <p>Nº Flights</p>
-                    <p class="text-center"><strong><%= drone.flights %></strong></p>
-                  </div>
-                </div>
-              </div>
-            <%}%>
-            <a href="#" onclick="addDrone()">Add new Drone -></a>
-          <%}%>%>
-        </div>
+        <%- include('partials/droneProfile', {myHangarData: myHangarData}) %>
 
-        <div class="box">
-          <h6 class="title is-6">My Flights</h4>
-            <% if (Object.keys(myHangarData.flightsData).length === 0) { %>
-              <div class="content has-text-centered">
-                <p class="text-center">No data registered</p>
-                <a href="/startFlying"><button class="button is-link">Start Flying</button></a>
-              </div> 
-            <%} else {%>
-
-            <%}%>
-        </div>
+        <%- include('partials/flightsProfile', {myHangarData: myHangarData}) %>
 
         <div class="modal" id="addLicense">
           <div class="modal-background"></div>
@@ -151,11 +26,24 @@
               <button class="delete" aria-label="close" onclick="closeLicense()"></button>
             </header>
             <section class="modal-card-body">
-              
+              <form action="/uploadLicense" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+
+                <div class="field">
+                  <label class="label">License Name</label>
+                  <div class="control has-icons-left">
+                      <input name="licenseName" type="text" class="input" placeholder="A1/A3" required>
+                      <span class="icon is-small is-left">
+                          <i class="fa fa-user"></i>
+                      </span>
+                  </div>
+                </div>
+
+                <input type="file" id="licenseFile" name="licenseFile">
+
             </section>
             <footer class="modal-card-foot">
-              <button class="button is-link">Save</button>
-              <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+              <button type="submit" class="button is-link">Save</button>
             </form>
               <button class="button" onclick="closeLicense()">Cancel</button>
             </footer>

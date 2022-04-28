@@ -1,0 +1,27 @@
+<div class="box">
+    <h6 class="title is-6">My Pilot profile</h4>
+    <div class="columns">
+      <div class="column is-half">
+        <p>Pilot Name: <strong><%= myHangarData.pilotData.fullName %></strong></p>
+        <p>UAS Operator / Username: <strong><%= myHangarData.pilotData.uasOperator %></strong></p>
+        <p>E-mail: <strong><%= myHangarData.pilotData.eMail %></strong></p>
+      </div>
+      <div class="column is-one-quarter"></div>
+      <div class="column is-one-quarter">
+        <div class="content has-text-centered">
+          <p>Total Flights</p>
+          <p class="text-center"><strong><%= Object.keys(myHangarData.flightsData).length %></strong></p>
+        </div>
+      </div>
+    </div>
+    <% if(!myHangarData.licenseData == []) { %>
+        <% for (let license of myHangarData.licenseData) { %>
+            <form action="/openFile" method="post">
+                <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+                <input type="hidden" name="file" value="<%= license.licenseData%>">
+                <a onclick="this.closest('form').submit()">License: <%= license.licenseName %></a>
+            </form> 
+        <%}%>
+    <%}%>  <br> 
+    <a href="#" onclick="addLicense()">Add license -></a>
+  </div>

@@ -1,0 +1,50 @@
+<div class="box">
+    <h6 class="title is-6">My Drones</h4>
+    <% if (myHangarData.droneData.length === 0) { %>
+      <div class="content has-text-centered">
+        <p class="text-center">No data registered</p>
+        <button class="button is-link" onclick="addDrone()">Add Drone</button>
+      </div> 
+    <%} else {%>
+      <% for (let drone of myHangarData.droneData) {%>
+        <div class="columns">
+          <div class="column is-one-quarter">
+            <div class="content has-text-centered">
+              <figure class="image is-128x128">
+                <% switch (drone.brandName.toLowerCase()) {
+                  case 'dji': %>
+                  <img src="/img/logos/dji.png" alt="">
+                  <% break
+                  default: %>
+                  <img src="/img/logos/default.svg" alt="">
+                  <% break
+                }%>
+                
+              </figure>
+            </div>
+          </div>
+          <div class="column is-half">
+            <p>Brand Name: <strong><%= drone.brandName %></strong></p>
+            <p>Model: <strong><%= drone.modelName %></strong></p>
+            <p>S/N: <strong><%= drone.serialNumber %></strong></p>
+            <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p>
+            <p>Is FPV? <strong><%= drone.isFPV %></strong></p><br>
+            <% if (drone.hasOwnProperty('insurance')) { %>
+              <form action="/openFile" method="post">
+                <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">
+                <input type="text" name="file" value="<%=drone.insurance.insuranceFile%>" hidden>
+                <button type="submit" class="button">Insurace Coverage with <%= drone.insurance.companyName %></button>
+              </form> 
+            <%}%>
+          </div>
+          <div class="column is-one-quarter">
+            <div class="content has-text-centered">
+              <p>Nº Flights</p>
+              <p class="text-center"><strong><%= drone.flights %></strong></p>
+            </div>
+          </div>
+        </div>
+      <%}%>
+      <a href="#" onclick="addDrone()">Add new Drone -></a>
+    <%}%>%>
+  </div>

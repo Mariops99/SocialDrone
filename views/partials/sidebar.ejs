@@ -1,0 +1,40 @@
+<div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-rocket icon'></i>
+        <div class="logo_name">SocialDrone</div>
+        <i class='bx bx-menu' id="btn" ></i>
+    </div>
+    <ul class="nav-list">
+        <li>
+            <a href="/myHangar">
+                <i class='bx bx-grid-alt'></i>
+                <span class="links_name">Hangar</span>
+            </a>
+            <span class="tooltip">Hangar</span>
+        </li>
+        <li>
+            <a href="/social">
+                <i class='bx bx-network-chart' ></i>
+                <span class="links_name">Social</span>
+            </a>
+            <span class="tooltip">Social</span>
+        </li>
+        <li>
+            <a href="/startFlying">
+                <i class='bx bxs-plane-take-off' ></i>
+                <span class="links_name">Start Flying</span>
+            </a>
+            <span class="tooltip">Start Flying</span>
+        </li>  
+        <li class="profile">
+            <div class="profile-details">
+                <i class="fas fa-user"></i>
+                    <div class="name_job">
+                        <div class="name"><%= myHangarData.pilotData.fullName %></div>
+                        <div class="job">Official Pilot</div>
+                    </div>
+                <a href="/logout"> <i class='bx bx-log-out' id="log_out"></i></a>
+            </div>
+        </li>
+    </ul>
+</div>
