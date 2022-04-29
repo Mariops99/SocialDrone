@@ -133,6 +133,21 @@ app.post('/openFile', (req, res) => {
   }
 });
 
+//GET & POST (StartFlying)
+app.get('/startFlying', (req, res) => {
+  if(checkRequest.checkSession(req)) {
+    databaseController.getStartFlying(req, (error, startFlying) => {
+      if(error) {
+        res.redirect('/myHangar')
+      } else {
+        res.render('startFlying', {startFlyingData: startFlying, XLOCATOR: checkRequest.getToken(req).TOKEN})
+      }
+    });
+  } else {
+    res.redirect('/')
+  }
+});
+
 //App start message
 app.listen(port, () => {
   console.log(`SocialDrone running on http://localhost:${port}`)

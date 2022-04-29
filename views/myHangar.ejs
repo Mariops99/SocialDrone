@@ -5,7 +5,7 @@
   </head>
 <body>
 
-  <%- include('partials/sidebar.ejs', {myHangarData: myHangarData}) %>
+  <%- include('partials/sidebar.ejs', {user: myHangarData.pilotData}) %>
 
   <section class="home-section">
       <div class="text">Hi <%= myHangarData.pilotData.fullName %>!</div><br>

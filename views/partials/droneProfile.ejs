@@ -28,7 +28,9 @@
             <p>Model: <strong><%= drone.modelName %></strong></p>
             <p>S/N: <strong><%= drone.serialNumber %></strong></p>
             <p>Date of registration: <strong><%= drone.dateRegistration %></strong></p>
-            <p>Is FPV? <strong><%= drone.isFPV %></strong></p><br>
+            <p>Is FPV? <strong><%= drone.isFPV %></strong></p>
+            <a onclick="openCheckListModal()">Edit Checklist -></a>
+            <br><br>
             <% if (drone.hasOwnProperty('insurance')) { %>
               <form action="/openFile" method="post">
                 <input type="hidden" name="XLOCATOR" value="<%=XLOCATOR%>">

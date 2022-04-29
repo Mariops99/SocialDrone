@@ -1,66 +1,16 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css">
-    <title>SocialDrone - My Hangar</title>
-    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma-rtl.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/solid.css" integrity="sha384-LA8Ug4T/nhVkyhrSmSirsoAo9iDrBk8E7U80aSPeD+w3vO8PzOJIS6agGcbIwwX0" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/brands.css" integrity="sha384-V5Z1KgRRJyY878qCx7+zUeTDm0FgjoYrbmSortFqRPGz+Ue6XDe4uIiMqB3tB/wd" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/fontawesome.css" integrity="sha384-wESLQ85D6gbsF459vf1CiZ2+rr+CsxRY0RpiF1tLlQpDnAgg6rwdsUF1+Ics2bni" crossorigin="anonymous">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <%- include('../partials/head.ejs', {title: 'Start Flying'}) %>
    </head>
 <body>
-  <div class="sidebar">
-    <div class="logo-details">
-      <i class='bx bx-paper-plane icon'></i>
-        <div class="logo_name">authIRIS</div>
-        <i class='bx bx-menu' id="btn" ></i>
-    </div>
-    <ul class="nav-list">
-      <li>
-        <a href="/myHangar">
-          <i class='bx bx-grid-alt'></i>
-          <span class="links_name">Hangar</span>
-        </a>
-         <span class="tooltip">Hangar</span>
-      </li>
-        <li>
-         <a href="/social">
-           <i class='bx bx-user' ></i>
-           <span class="links_name">Social</span>
-         </a>
-         <span class="tooltip">Social</span>
-       </li>
-      <li>
-        <a href="/startFlying">
-         <i class='bx bx-trip'></i>
-          <span class="links_name">Start Flying</span>
-        </a>
-        <span class="tooltip">Start Flying</span>
-      </li>
-      
   
-     <li class="profile">
-         <div class="profile-details">
-          <i class="fas fa-user"></i>
-           <div class="name_job">
-             <div class="name"><%= user['userName'] %></div>
-             <div class="job">Official Pilot</div>
-           </div>
-           <a href="/logout"> <i class='bx bx-log-out' id="log_out"></i></a>
-         </div>
-        
-     </li>
-    </ul>
-  </div>
+  <%- include('partials/sidebar.ejs', {user: userData}) %>
 
   <section class="home-section">
-      <div class="text">Hi <%= user['userName'] %>!</div>
-
-  </section>
+    <div class="text">Hi <%= userData.fullName %>!</div><br>
+    <section class="section">
+      <h2 class="subtitle">My Hangar</h2> <br>
 
   <script>
     let sidebar = document.querySelector(".sidebar");
