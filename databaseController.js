@@ -218,7 +218,7 @@ async function addDrone (req, callback) {
     var date = new Date();
     drone.dateRegistration = date.getUTCDate() + '/' + (date.getUTCMonth()+1) + '/' + date.getFullYear();
 
-    firebase.database().ref('pilot/' + req.session.user.uid + '/drone/' + firebase.database().ref('/pilot').push().key).set(drone, (error) => {
+    firebase.database().ref('pilot/' + req.session.user.uid + '/drone/' + req.body.serialNumber).set(drone, (error) => {
         if(!error) {
             callback(false, true);
         } else {
@@ -240,7 +240,6 @@ async function addLicense (req, callback) {
         }
     });
 }
-
 async function getStartFlying(req, callback) {
     var startFlyingData = {
         pilotData : {},
@@ -291,4 +290,4 @@ async function getStartFlying(req, callback) {
     }
 }
 
-module.exports = {check, userIsConnected, signIn, signUp, getMyHangar, addDrone, addLicense}
+module.exports = {check, userIsConnected, signIn, signUp, getMyHangar, addDrone, addLicense, getStartFlying}

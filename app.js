@@ -148,6 +148,10 @@ app.get('/startFlying', (req, res) => {
   }
 });
 
+app.post('/saveFlight', (req, res) => {
+  console.log(req.body);
+});
+
 //App start message
 app.listen(port, () => {
   console.log(`SocialDrone running on http://localhost:${port}`)

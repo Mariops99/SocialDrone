@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="es" dir="ltr">
   <head>
-      <%- include('../partials/head.ejs', {title: 'Start Flying'}) %>
+      <%- include('partials/head.ejs', {title: 'Start Flying'}) %>
    </head>
 <body>
   
-  <%- include('partials/sidebar.ejs', {user: userData}) %>
+  <%- include('partials/sidebar.ejs', {user: startFlyingData.pilotData}) %>
 
   <section class="home-section">
-    <div class="text">Hi <%= userData.fullName %>!</div><br>
+    <div class="text">Hi <%= startFlyingData.pilotData.fullName %>!</div><br>
     <section class="section">
-      <h2 class="subtitle">My Hangar</h2> <br>
+      <h2 class="subtitle">New Flight. See you in the sky!</h2> <br>
 
+      <button class="button is-link is-fullwidth is-large">Start new Checklist</button> <br><br>
+
+      <h2 class="subtitle">Do you want to save a previous flight?</h2>
+
+      <%- include('partials/startFlying/flightInformation.ejs', {data: startFlyingData, XLOCATOR: XLOCATOR}) %>
+ 
   <script>
     let sidebar = document.querySelector(".sidebar");
     let closeBtn = document.querySelector("#btn");
@@ -25,7 +31,16 @@
     searchBtn.addEventListener("click", ()=>{
         sidebar.classList.toggle("open");
         menuBtnChange();
-    });    
+    });
+
+    function changePrivate() {
+      let private = document.querySelector('#isPublic');
+      private.value = 0;
+    }
+    function changePublic() {
+      let private = document.querySelector('#isPublic');
+      private.value = 1;
+    }
   </script>
 </body>
 </html>
