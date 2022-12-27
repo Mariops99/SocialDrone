@@ -17,8 +17,6 @@ var firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-var database = firebase.database();
-
 function check(req) {
     return true;
 }
@@ -287,6 +285,13 @@ async function getStartFlying(req, callback) {
         } 
     } else {
         callback(true, false);
+    }
+}
+
+async function publishFlight(req, callback) {
+    var flight = {
+        uasOperator: req.body.uasOperator,
+        droneUsed: req.body.drone
     }
 }
 

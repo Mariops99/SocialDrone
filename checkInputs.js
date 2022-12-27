@@ -3,14 +3,16 @@ var inputsNeeded = {
     signIn: ['eMail', 'password'],
     addDrone: ['brandName', 'modelName', 'serialNumber', 'isFPV'],
     uploadLicense: ['licenseName'],
-    openFile: ['fileBase64']
+    openFile: ['fileBase64'],
+    saveFlight: ['droneData', 'locationName', 'flightTime', 'maxAltitude', 'maxDistance', 'flightTimeDuration', 'isPublic']
 }
 var inputTypes = {
     signUp: {fullName: 'string', birthDay: 'string', eMail: 'string', pilotID: 'string', password: 'string'},
     signIn: {eMail: 'string', password: 'string'},
     addDrone: {brandName: 'string', modelName: 'string', serialNumber: 'string', isFPV: 'string'},
     uploadLicense: {licenseName: 'string'},
-    openFile: {fileBase64: 'string'}
+    openFile: {fileBase64: 'string'},
+    saveFlight: {droneData: 'string', locationName: 'string', flightTime: 'string', maxAltitude: 'string', maxDistance: 'string', flightTimeDuration: 'string', isPublic: 'number'}
 }
 
 let regex = /[a-zA-Z0-9]/

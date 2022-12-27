@@ -41,6 +41,7 @@ app.get('/', (req, res) => {
 })
 
 //GET & POST (SignIn, SignUp & Logout)
+
 app.get('/start', (req, res) => {  
     res.render('login', {info: null, XLOCATOR: checkRequest.getToken(req).TOKEN})
 });
@@ -149,10 +150,13 @@ app.get('/startFlying', (req, res) => {
 });
 
 app.post('/saveFlight', (req, res) => {
+  if(checkRequest.check(req)) {
+  
+  }
   console.log(req.body);
 });
 
 //App start message
 app.listen(port, () => {
-  console.log(`SocialDrone running on http://localhost:${port}`)
+  console.log(`SocialDrone running on http://192.168.0.82:${port}`)
 })

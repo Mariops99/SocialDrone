@@ -4,7 +4,7 @@
     <input type="hidden" name="XLOCATOR" value="<%= XLOCATOR %>">
 
     <div class="field">
-      <label class="label">UAS Identification:</label>
+      <label class="label">UAS Identification:*</label>
       <div class="control has-icons-left">
           <input name="uas" type="text" class="input" value="<%= data.pilotData.uasOperator %>" disabled>
           <span class="icon is-small is-left">
@@ -14,10 +14,10 @@
     </div>
 
     <div class="field">
-      <label class="label">Drone Used:</label>
+      <label class="label">Drone Used:*</label>
       <div class="control has-icons-left">
         <div class="select is-fullwidth">
-          <select>
+          <select name="droneData">
             <% for (let drone of data.droneData) { %>
               <option value="<%= drone.serialNumber %>"><%= drone.brandName %> <%= drone.modelName %> | <%= drone.serialNumber %></option>
             <% } %>
@@ -27,7 +27,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Location:</label>
+      <label class="label">Location:*</label>
       <div class="control has-icons-left">
           <input name="locationName" type="text" class="input" placeholder="Madrid (Spain)" required>
           <span class="icon is-small is-left">
@@ -37,7 +37,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Time:</label>
+      <label class="label">Time:*</label>
       <div class="control has-icons-left">
           <input name="flightTime" type="text" class="input" placeholder="15:00" required>
           <span class="icon is-small is-left">
@@ -47,7 +47,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Max Altitude Reached:</label>
+      <label class="label">Max Altitude Reached:*</label>
       <div class="control has-icons-left">
           <input name="maxAltitude" type="text" class="input" placeholder="120" required>
           <span class="icon is-small is-left">
@@ -57,7 +57,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Max Distance Reached:</label>
+      <label class="label">Max Distance Reached:*</label> 
       <div class="control has-icons-left">
           <input name="maxDistance" type="text" class="input" placeholder="340" required>
           <span class="icon is-small is-left">
@@ -67,7 +67,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Flight Time:</label>
+      <label class="label">Flight Time:*</label>
       <div class="control has-icons-left">
           <input name="flightTimeDuration" type="text" class="input" placeholder="95" required>
           <span class="icon is-small is-left">
@@ -75,10 +75,22 @@
           </span>
       </div>
     </div> <br>
+
+    <div class="field">
+      <label class="label">Important Comunication about flight:</label>
+      <div class="control has-icons-left">
+        <textarea name="flightComunication" class="textarea" placeholder="Connection roblems with RC & Drone when trying to reach 100 meters of altitude"></textarea>
+      </div>
+    </div> <br>
  
     <input type="hidden" id="isPublic" name="isPublic">
 
-    <button type="submit" onclick="changePrivate()"  class="button is-fullwidth">Save on private</button> <br>
-    <button type="submit" onclick="changePublic()" class="button is-success is-fullwidth">Save & Share</button>
+    <button type="submit" onclick="changePrivate()" class="button is-fullwidth">Save on private</button> <br>
+    <button type="submit" onclick="changePublic()" class="button is-success is-fullwidth">Save & Share</button> <br>
+
+    <p><strong>*</strong> fields are mandatory.</p>
+    <p><strong>*</strong> SocialDrone is <strong>not</strong> responsible for flights over restricted areas or any prohibited locations. SocialDrone is <strong>not</strong> responsible for any problems occurred before, during and after the flights.</p>
+
+
   </form>
 </div>
